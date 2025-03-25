@@ -8,14 +8,14 @@ class Client:
         self.pk = self.phe.pk     
         self.sk = self.phe.sk     
         
-        print(f"Client initialisé avec clé Paillier {bits}-bits")
-        print(f"Clé publique (n,g): {self.pk}")
+        print(f"Paillier key {bits}-bits")
+        print(f"Public key (n,g): {self.pk}")
 
 
 
     def request(self, db_size, index):
         if index < 0 or index >= db_size:
-            raise ValueError(f"Index {index} hors limites (taille DB: {db_size})")
+            raise ValueError(f"Index {index} out of limits (Database size : {db_size})")
         
         request_vector = []
         for j in range(db_size):
@@ -23,7 +23,7 @@ class Client:
             encrypted_bit = self.phe.encrypt(message)
             request_vector.append(encrypted_bit)
         
-        print(f"Requête PIR générée pour index {index}")
+        print(f"PIR request generated for index {index}")
         return request_vector
 
 
@@ -31,5 +31,5 @@ class Client:
     def decrypt_answer(self, encrypted_answer):
         decrypted_value = self.phe.decrypt(encrypted_answer)
         
-        print(f"Réponse serveur déchiffrée: {decrypted_value}")
+        print(f"Decrypted server response : {decrypted_value}")
         return decrypted_value
