@@ -85,7 +85,7 @@ class Paillier:
         decrypted = self.decrypt(new_cipher)
         
         assert decrypted == (m1 + m2) % n
-        print("Test d'addition avec constante réussi")
+        print("Addition test with constant passed")
 
 
 
@@ -103,7 +103,7 @@ class Paillier:
         decrypted = self.decrypt(powered_cipher)
         
         assert decrypted == (m1 * m2) % n
-        print("Test de multiplication par constante réussi")
+        print("Constant multiplication test passed")
 
 
 
