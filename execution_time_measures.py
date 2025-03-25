@@ -9,9 +9,8 @@ def measure_execution_time():
     server_times = []
     
     for db_size in db_sizes:
-        index_to_retrieve = db_size // 2  # Arbitrary choice of index
+        index_to_retrieve = db_size // 2 
         
-        # Time measure for the client
         start_time = time.time()
         client = Client()
         request = client.request(db_size, index_to_retrieve)
@@ -19,7 +18,6 @@ def measure_execution_time():
         client_time = time.time() - start_time
         client_times.append(client_time)
         
-        # Time measure for the server
         server = Server(db_size)
         start_time = time.time()
         encrypted_answer = server.answer_request(request, public_key)
@@ -28,7 +26,6 @@ def measure_execution_time():
         
         _ = client.decrypt_answer(encrypted_answer)
     
-    # Curves
     plt.figure(1)
     plt.plot(db_sizes, client_times, marker='x')
     plt.xlabel("Database size")
