@@ -12,7 +12,8 @@ def main():
     public_key = client.pk
     encrypted_answer = server.answer_request(request, public_key)
     retrieved_value = client.decrypt_answer(encrypted_answer)
-    
+
+    assert retrieved_value == server.db[index_to_retrieve], "Error : incorrect value"
     print(f"Test succeeded : the value retrieved ({retrieved_value}) corresponds to the one from the server.")
 
 if __name__ == "__main__":
