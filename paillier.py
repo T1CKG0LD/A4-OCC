@@ -48,3 +48,70 @@ class Paillier:
         m = gmpy2.mul(L(c_lambda), mu) % n
         
         return int(m)
+
+
+
+
+
+"""----------Test of homomorphic addition------------"""
+    def test_homomorphic_addition(self):
+        m1 = 42
+        m2 = 123
+        c1 = self.encrypt(m1)
+        c2 = self.encrypt(m2)
+        
+        n = self.pk[0]
+        product = (c1 * c2) % (n**2)
+        
+        decrypted = self.decrypt(product)
+        
+        assert decrypted == (m1 + m2) % n
+        print("Homomorphic addition test passed")
+
+
+
+
+
+"""----------Test of addition with a constant------------"""
+    def test_addition_constant(self):
+        m1 = 42
+        m2 = 123
+        c1 = self.encrypt(m1)
+        n, g = self.pk
+        
+        g_m2 = gmpy2.powmod(g, m2, n**2)
+        new_cipher = (c1 * g_m2) % (n**2)
+        
+        decrypted = self.decrypt(new_cipher)
+        
+        assert decrypted == (m1 + m2) % n
+        print("Test d'addition avec constante réussi")
+
+
+
+
+
+"""----------Test of multiplication by a constant------------"""
+    def test_multiply_constant(self):
+        m1 = 42
+        m2 = 3
+        c1 = self.encrypt(m1)
+        n = self.pk[0]
+        
+        powered_cipher = gmpy2.powmod(c1, m2, n**2)
+        
+        decrypted = self.decrypt(powered_cipher)
+        
+        assert decrypted == (m1 * m2) % n
+        print("Test de multiplication par constante réussi")
+
+
+
+
+
+"""----------Application with 1024 bits------------"""
+if __name__ == "__main__":
+    phe = Paillier(1024)
+    phe.test_addition_constant()
+    phe.test_homomorphic_addition()
+    phe.test_multiply_constant()
